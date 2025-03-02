@@ -1,6 +1,6 @@
 Hospital Management System <br>
 Includes admin panel <br>
-Download and open the folder in PyCharm or anyother editor <br>
+Download and open the folder in PyCharm or any other editor <br>
 Make sure you have django installed <br>
 In terminal type cd Hospital <br>
 In terminal type python manage.py runserver <br> 
