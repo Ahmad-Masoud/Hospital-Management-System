@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edgestipal</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}"> <!-- Fixed missing closing tag -->
+</head>
+<body>
+    <header>
+        <h1>Welcome to Edgestipal</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#appointment">Book Appointment</a></li>
+            <li><a href="#doctors">Available Doctors</a></li>
+            <li><a href="#patients">Patient Records</a></li>
+        </ul>
+    </nav>
+
+    <section id="appointment">
+        <h2>Patient Appointment Form</h2>
+        <form id="appointmentForm" method="post" action="{% url 'book_appointment' %}">
+            {% csrf_token %}
+            <label for="name">Patient Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="problem">Problem:</label>
+            <input type="text" id="problem" name="problem" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="number" id="phone" name="phone" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="doctor">Select Doctor:</label>
+            <select id="doctor" name="doctor" required>
+                <option value="dr_smith">Dr. Smith</option>
+                <option value="dr_jones">Dr. Jones</option>
+                <option value="dr_williams">Dr. Williams</option>
+            </select>
+
+            <label for="date">Appointment Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <br><br><br>
+            <button type="submit">Book Appointment</button>
+        </form>
+    </section>
+
+    <section id="doctors">
+        <h2>Available Doctors</h2>
+        <div class="doctor-list">
+            <div class="doctor">
+                <h3>Dr. Smith</h3>
+                <p>Specialization: Cardiologist</p>
+            </div>
+            <div class="doctor">
+                <h3>Dr. Jones</h3>
+                <p>Specialization: Neurologist</p>
+            </div>
+            <div class="doctor">
+                <h3>Dr. Williams</h3>
+                <p>Specialization: Goonologist</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="patients">
+        <h2>Patient Records</h2>
+        <table id="patientTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Problem</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.name }}</td>
+                    <td>{{ patient.email }}</td>
+                    <td>{{ patient.phone }}</td>
+                    <td>{{patient.problem}}</td>
+                    <td>{{ patient.age }}</td>
+                    <td>{{ patient.gender }}</td>
+                    <td>{{ patient.doctor }}</td>
+                    <td>{{ patient.date }}</td>
+                    <td>
+                        <select onchange="updateStatus({{ patient.id }}, this.value)">
+                            <option value="Appointment Pending" {% if patient.status == "Appointment Pending" %}selected{% endif %}>Appointment Pending</option>
+                            <option value="Cured" {% if patient.status == "Cured" %}selected{% endif %}>Cured</option>
+                            <option value="Under Treatment" {% if patient.status == "Under Treatment" %}selected{% endif %}>Under treatment</option>
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        <p>&copy; Copyrights-2025-Edgestipal</p>
+    </footer>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>
